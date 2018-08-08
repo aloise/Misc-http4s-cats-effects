@@ -1,0 +1,42 @@
+---
+openapi: 3.0.0
+info:
+  title: Verspaetung API
+  description: Verspaetung public transport information
+paths:
+  '/lines':
+    get:
+      summary: Returns the vehicles for a given time and coordinates
+      parameters:
+      - name: timestamp
+        in: query
+        required: true
+        description: The timestamp
+        schema:
+          type: string
+          example: '10:00:00'
+      - name: x
+        in: query
+        required: true
+        description: The line x coordinate
+        schema:
+          type: integer
+          example: 10
+      - name: y
+        in: query
+        required: true
+        description: The line y coordinate
+        schema:
+          type: integer
+          example: 12
+  '/lines/{name}':
+    get:
+      summary: Returns boolean indicating if given line is currently delayed
+      parameters:
+      - name: name
+        in: path
+        required: true
+        description: The line name
+        schema:
+          type: string
+          example: M4
