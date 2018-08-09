@@ -13,6 +13,9 @@ abstract class TransportationTimeTableService[F[_] : Effect](ds: TransportationD
 
   def isDelayed(time: LocalTime, lineName: LineName): F[Boolean]
 
-  def getLineByName(lineNameStr: String): LineName
+  def getLineByName(lineNameStr: String): F[LineName]
 
 }
+
+sealed abstract class TransportationTimeTableServiceError(msg:String) extends Exception(msg)
+case class LineNotFoundByName(lineNameStr:String) extends TransportationTimeTableServiceError(s"Line not found by name: $lineNameStr")

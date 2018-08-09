@@ -1,11 +1,12 @@
 package com.mobimeo.datasource.csv
 
-import cats.effect.Effect
+import cats.effect.{Effect, IO}
 import com.mobimeo.datasource._
 import com.typesafe.scalalogging.StrictLogging
 import kantan.csv.CsvConfiguration.Header.Implicit
 
 import scala.concurrent.duration._
+import scala.io.Source
 import scala.language.higherKinds
 
 
@@ -44,4 +45,22 @@ case class CsvTransportationDatasource[F[_] : Effect](
       }
       x.toOption
     })
+}
+
+object CsvTransportationDatasource {
+
+  private def ioFromCSVDataResource[F[_] : Effect](filename: String): F[String] =
+    implicitly[Effect[F]].pure(Source.fromResource("data/" + filename + ".csv").mkString)
+
+  def fromResources[F[_]:Effect](
+                                     delaysFilename:String ="delays",
+                                     linesFilename:String = "lines",
+                                     stopsFilename:String = "stops",
+                                     timesFilename:String = "times"
+                                   ):CsvTransportationDatasource[F] = CsvTransportationDatasource(
+    ioFromCSVDataResource(delaysFilename),
+    ioFromCSVDataResource(linesFilename),
+    ioFromCSVDataResource(stopsFilename),
+    ioFromCSVDataResource(timesFilename)
+  )
 }
