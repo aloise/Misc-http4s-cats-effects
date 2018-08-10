@@ -1,0 +1,23 @@
+HTTP Rest Transportation service
+
+Author: Ihor Mordashev
+
+Technologies: Scala, http4s
+
+How to run:
+    - You need to have `sbt` installed
+    - The following command would run the server on localhost:8081 :
+        > sbt run
+
+How to test:
+    - To run unit tests please run:
+        > sbt test
+    - To run integration tests please run:
+        > sbt it:test
+
+To create a distribution:
+    - To create a standard SBT distribution:
+        > sbt dist
+    - Sbt native packager is included ( https://www.scala-sbt.org/sbt-native-packager/formats/universal.html )
+    - To publish a local Docker image please run:
+        > sbt docker:publishLocal

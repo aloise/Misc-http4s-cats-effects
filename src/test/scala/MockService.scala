@@ -1,9 +1,9 @@
 import java.time.LocalTime
 
 import cats.effect.IO
-import com.aloise.data._
-import com.aloise.datasource.{Delay, Line, StopPosition, TimeTable}
-import com.aloise.service.AsyncTransportationTimeTableService
+import name.aloise.data._
+import name.aloise.datasource._
+import name.aloise.service.AsyncTransportationTimeTableService
 import scala.concurrent.duration._
 
 trait MockService {

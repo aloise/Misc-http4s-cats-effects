@@ -3,9 +3,9 @@ import java.time.LocalTime
 import cats.effect._
 import cats.implicits._
 import cats.effect.implicits._
-import com.aloise.data._
-import com.aloise.datasource._
-import com.aloise.service.AsyncTransportationTimeTableService
+import name.aloise.data._
+import name.aloise.datasource._
+import name.aloise.service.AsyncTransportationTimeTableService
 import org.scalatest.{MustMatchers, WordSpec}
 
 import scala.concurrent.duration._

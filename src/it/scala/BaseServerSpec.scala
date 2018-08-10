@@ -2,9 +2,9 @@ import cats._
 import cats.implicits._
 import cats.effect.IO
 import com.github.agourlay.cornichon.CornichonFeature
-import com.aloise.datasource.csv.CsvTransportationDatasource
-import com.aloise.server.{DefaultServerBuilder, ServerConfiguration}
-import com.aloise.server.http.DefaultHttpService
+import name.aloise.datasource.csv.CsvTransportationDatasource
+import name.aloise.server.{DefaultServerBuilder, ServerConfiguration}
+import name.aloise.server.http.DefaultHttpService
 import com.typesafe.scalalogging.StrictLogging
 import org.http4s.server.Server
 import org.scalatest.BeforeAndAfterAll
