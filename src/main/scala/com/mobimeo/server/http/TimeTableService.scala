@@ -23,10 +23,22 @@ class TimeTableService[F[_]: Effect](timeTableService:TransportationTimeTableSer
   val service: HttpService[F] = HttpService[F] {
 
       case GET -> Root / "lines" :? PositionXParam(x) +& PositionYParam(y) +& TimestampParam(time) =>
-        Ok(GetLinesResponse(List.empty))
+        for {
+          lineItemsFound <- timeTableService.getLinesAtTimeAndPosition(time,GridPosition(x,y))
+          response <- Ok(GetLinesResponse(lineItemsFound))
+        } yield response
+
+      case GET -> Root / "lines" :? LineNameParam(lineNameStr) =>
+        for {
+          lineName <- timeTableService.getLineByName(lineNameStr)
+          isDelayed <- timeTableService.isDelayed(lineName)
+          response <- Ok(LineDelayed(lineName,isDelayed))
+        } yield response
 
       case GET -> Root / "lines" =>
-        NotAcceptable(Error("lines request requires query params x,y and time"))
+        NotAcceptable(Error("lines request requires query params"))
+
+
     }
 }
 
@@ -35,11 +47,13 @@ object TimeTableService {
   object PositionXParam extends QueryParamDecoderMatcher[PositionX]("x")
   object PositionYParam extends QueryParamDecoderMatcher[PositionY]("y")
   object TimestampParam extends QueryParamDecoderMatcher[LocalTime]("timestamp")
+  object LineNameParam extends QueryParamDecoderMatcher[String]("name")
 
   implicit val localTimeToCirce:Encoder[LocalTime] = (a: LocalTime) => Json.fromString(a.toString)
 
   sealed trait Response
-  case class GetLinesResponse(lines:List[LineName])
+  case class GetLinesResponse(lines:Set[LineName]) extends Response
+  case class LineDelayed(lineName:LineName, isDelayed:Boolean) extends Response
 
 
 }

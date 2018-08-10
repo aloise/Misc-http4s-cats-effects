@@ -7,6 +7,11 @@ import com.mobimeo.data.{GridPosition, LineName}
 import com.mobimeo.datasource.TransportationDatasource
 import com.mobimeo.utils.WithEffects
 
+/**
+  * Simple transporation info provide interface
+  * @param ds Basic Datasource
+
+  */
 abstract class TransportationTimeTableService[F[_] : Effect](ds: TransportationDatasource[F]) extends WithEffects {
 
   def getLinesAtTimeAndPosition(time: LocalTime, position: GridPosition): F[Set[LineName]]

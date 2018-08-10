@@ -1,29 +1,42 @@
 package com.mobimeo.server
 
-import cats.effect.{ExitCode, IO, IOApp}
-import com.mobimeo.datasource.TransportationDatasource
+import cats.effect.IO
 import com.mobimeo.datasource.csv.CsvTransportationDatasource
+import com.mobimeo.server.http.DefaultHttpService
 import com.mobimeo.service.AsyncTransportationTimeTableService
+import fs2.StreamApp
 
-import scala.io.Source
 import scala.util.Try
 
-object Main extends IOApp {
+object Main extends StreamApp[IO] {
 
-  val csvDatasource: TransportationDatasource[IO] = CsvTransportationDatasource.fromResources()
+  import scala.concurrent.ExecutionContext.Implicits.global
 
-  lazy val service = AsyncTransportationTimeTableService(csvDatasource)
+  private def loadConfig:IO[ServerConfiguration] =
+    IO.fromEither(Try(pureconfig.loadConfigOrThrow[ServerConfiguration]("server")).toEither)
 
-
-  def run(args: List[String]): IO[ExitCode] = {
+  /**
+    * Composing server instance
+    * @return
+    */
+  private def httpServer = {
     for {
-      serverConfig <- IO.fromEither(Try(pureconfig.loadConfigOrThrow[ServerConfiguration]("server")).toEither)
-
-      result <- IO.pure{
-        println("Hello")
-        ExitCode.Success
-      }
-    } yield result
+      config <-loadConfig
+      csvDatasource = CsvTransportationDatasource.fromResources[IO]()
+      timeTableService = AsyncTransportationTimeTableService(csvDatasource)
+      server = DefaultHttpService(config)(timeTableService)
+    } yield server.stream
   }
+
+  /**
+    * Running the app
+    * @param args
+    * @param requestShutdown
+    * @return
+    */
+  def stream(args: List[String], requestShutdown: IO[Unit]) =
+    httpServer.unsafeRunSync()
+
+
 
 }
