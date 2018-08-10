@@ -1,5 +1,5 @@
 import cats.effect.Effect
-import com.mobimeo.datasource._
+import com.aloise.datasource._
 
 case class MemoryDatasource[F[_] : Effect](
                                             delays: List[Delay],

@@ -2,9 +2,9 @@ import cats._
 import cats.implicits._
 import cats.effect.IO
 import com.github.agourlay.cornichon.CornichonFeature
-import com.mobimeo.datasource.csv.CsvTransportationDatasource
-import com.mobimeo.server.{DefaultServerBuilder, ServerConfiguration}
-import com.mobimeo.server.http.DefaultHttpService
+import com.aloise.datasource.csv.CsvTransportationDatasource
+import com.aloise.server.{DefaultServerBuilder, ServerConfiguration}
+import com.aloise.server.http.DefaultHttpService
 import com.typesafe.scalalogging.StrictLogging
 import org.http4s.server.Server
 import org.scalatest.BeforeAndAfterAll

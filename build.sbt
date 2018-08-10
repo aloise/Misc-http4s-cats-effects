@@ -8,12 +8,16 @@ val enumeratumVersion = "1.5.13"
 val kantanCsvVersion = "0.4.0"
 val catsVersion = "1.2.0"
 
+dockerExposedPorts := Seq(8081)
+
 lazy val root = (project in file("."))
   .configs(IntegrationTest)
+  .enablePlugins(JavaAppPackaging)
+  .enablePlugins(DockerPlugin)
   .settings(
     Defaults.itSettings,
     organization := "name.aloise",
-    name := "challenge-mobimeo-v1",
+    name := "mobile-transportation-test-service-v1",
     version := "0.0.1-SNAPSHOT",
     scalaVersion := "2.12.6",
     libraryDependencies ++= Seq(

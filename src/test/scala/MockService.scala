@@ -1,9 +1,9 @@
 import java.time.LocalTime
 
 import cats.effect.IO
-import com.mobimeo.data._
-import com.mobimeo.datasource.{Delay, Line, StopPosition, TimeTable}
-import com.mobimeo.service.AsyncTransportationTimeTableService
+import com.aloise.data._
+import com.aloise.datasource.{Delay, Line, StopPosition, TimeTable}
+import com.aloise.service.AsyncTransportationTimeTableService
 import scala.concurrent.duration._
 
 trait MockService {
