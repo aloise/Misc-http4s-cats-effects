@@ -1,3 +1,3 @@
 package com.mobimeo.server
 
-final case class ServerConfiguration(port: Int)
+final case class ServerConfiguration(port: Int, host:String)
