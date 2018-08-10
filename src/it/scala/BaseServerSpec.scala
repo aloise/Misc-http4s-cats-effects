@@ -5,6 +5,7 @@ import com.github.agourlay.cornichon.CornichonFeature
 import com.mobimeo.datasource.csv.CsvTransportationDatasource
 import com.mobimeo.server.{DefaultServerBuilder, ServerConfiguration}
 import com.mobimeo.server.http.DefaultHttpService
+import com.typesafe.scalalogging.StrictLogging
 import org.http4s.server.Server
 import org.scalatest.BeforeAndAfterAll
 
@@ -22,9 +23,8 @@ trait BaseServerSpec extends CornichonFeature with BeforeAndAfterAll with Defaul
   override lazy val baseUrl = server.baseUri.toString()
 
   override def beforeAll(): Unit = {
-    // accessing baseUrl to make sure the server was initialized
+    // accessing baseUrl to make sure the server was initialized - that's how Cornichon library is designed :(
     val _ = baseUrl
-    println(baseUrl)
     super.beforeAll()
   }
 

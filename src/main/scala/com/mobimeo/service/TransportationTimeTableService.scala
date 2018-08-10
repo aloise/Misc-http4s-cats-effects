@@ -18,7 +18,7 @@ abstract class TransportationTimeTableService[F[_] : Effect](ds: TransportationD
 
   def isDelayed(lineName: LineName): F[Boolean]
 
-  def getLineByName(lineNameStr: String): F[LineName]
+  def getLineByName(lineNameStr: String): F[Option[LineName]]
 
 }
 

@@ -24,20 +24,20 @@ class TimeTableService[F[_]: Effect](timeTableService:TransportationTimeTableSer
 
       case GET -> Root / "lines" :? PositionXParam(x) +& PositionYParam(y) +& TimestampParam(time) =>
         for {
-          lineItemsFound <- timeTableService.getLinesAtTimeAndPosition(time,GridPosition(x,y))
+          lineItemsFound <- timeTableService.getLinesAtTimeAndPosition(time, GridPosition(x,y))
           response <- Ok(GetLinesResponse(lineItemsFound))
         } yield response
 
-      case GET -> Root / "lines" :? LineNameParam(lineNameStr) =>
+      case GET -> Root / "lines" / lineNameStr =>
         for {
-          lineName <- timeTableService.getLineByName(lineNameStr)
-          isDelayed <- timeTableService.isDelayed(lineName)
-          response <- Ok(LineDelayed(lineName,isDelayed))
+          lineNameOpt <- timeTableService.getLineByName(lineNameStr)
+          response <- lineNameOpt.fold(NotFound(Error("Line was not found by name"))) { lineName =>
+            timeTableService.isDelayed(lineName).flatMap(isDelayed => Ok(LineDelayed(lineName, isDelayed)))
+          }
         } yield response
 
       case GET -> Root / "lines" =>
         NotAcceptable(Error("lines request requires query params"))
-
 
     }
 }
@@ -47,7 +47,6 @@ object TimeTableService {
   object PositionXParam extends QueryParamDecoderMatcher[PositionX]("x")
   object PositionYParam extends QueryParamDecoderMatcher[PositionY]("y")
   object TimestampParam extends QueryParamDecoderMatcher[LocalTime]("timestamp")
-  object LineNameParam extends QueryParamDecoderMatcher[String]("name")
 
   implicit val localTimeToCirce:Encoder[LocalTime] = (a: LocalTime) => Json.fromString(a.toString)
 

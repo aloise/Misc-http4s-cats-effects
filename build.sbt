@@ -33,7 +33,7 @@ lazy val root = (project in file("."))
       "com.nrinaudo" %% "kantan.csv-enumeratum" % kantanCsvVersion,
       "com.nrinaudo" %% "kantan.csv-java8" % kantanCsvVersion,
       "org.typelevel" %% "cats-core" % catsVersion,
-      "org.typelevel" %% "cats-effect" % "1.0.0-RC2",
+      "org.typelevel" %% "cats-effect" % "0.10.1",
       "ch.qos.logback" % "logback-classic" % "1.2.3",
       "com.typesafe.scala-logging" %% "scala-logging" % "3.9.0",
 
