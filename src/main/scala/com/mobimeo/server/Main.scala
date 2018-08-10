@@ -8,34 +8,16 @@ import fs2.StreamApp
 
 import scala.util.Try
 
-object Main extends StreamApp[IO] {
+object Main extends StreamApp[IO] with DefaultServerBuilder {
 
+  // just a quick default - might make sense to provide a separate EC
   import scala.concurrent.ExecutionContext.Implicits.global
 
-  private def loadConfig:IO[ServerConfiguration] =
-    IO.fromEither(Try(pureconfig.loadConfigOrThrow[ServerConfiguration]("server")).toEither)
-
   /**
-    * Composing server instance
-    * @return
-    */
-  private def httpServer = {
-    for {
-      config <-loadConfig
-      csvDatasource = CsvTransportationDatasource.fromResources[IO]()
-      timeTableService = AsyncTransportationTimeTableService(csvDatasource)
-      server = DefaultHttpService(config)(timeTableService)
-    } yield server.stream
-  }
-
-  /**
-    * Running the app
-    * @param args
-    * @param requestShutdown
-    * @return
+    * Starting the app
     */
   def stream(args: List[String], requestShutdown: IO[Unit]) =
-    httpServer.unsafeRunSync()
+    httpServer().unsafeRunSync.stream
 
 
 

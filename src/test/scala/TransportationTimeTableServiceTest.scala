@@ -10,7 +10,7 @@ import org.scalatest.{MustMatchers, WordSpec}
 
 import scala.concurrent.duration._
 
-class TransportationTimeTableServiceSpec extends WordSpec with MustMatchers with MockService {
+class TransportationTimeTableServiceTest extends WordSpec with MustMatchers with MockService {
 
   "A time table service should" should {
     "not be delayed for m1" in {
