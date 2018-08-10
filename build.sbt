@@ -21,7 +21,8 @@ libraryDependencies ++= Seq(
   "com.nrinaudo" %% "kantan.csv-java8" % kantanCsvVersion,
   "org.typelevel" %% "cats-core" % catsVersion,
   "org.typelevel" %% "cats-effect" % "1.0.0-RC2",
-
   "ch.qos.logback" % "logback-classic" % "1.2.3",
-  "com.typesafe.scala-logging" %% "scala-logging" % "3.9.0"
+  "com.typesafe.scala-logging" %% "scala-logging" % "3.9.0",
+  "org.scalatest" %% "scalatest" % "3.0.5" % Test
+
 )

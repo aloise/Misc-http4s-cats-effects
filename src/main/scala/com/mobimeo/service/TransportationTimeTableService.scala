@@ -9,9 +9,9 @@ import com.mobimeo.utils.WithEffects
 
 abstract class TransportationTimeTableService[F[_] : Effect](ds: TransportationDatasource[F]) extends WithEffects {
 
-  def getLinesAtTimeAndPosition(time: LocalTime, position: GridPosition): F[List[LineName]]
+  def getLinesAtTimeAndPosition(time: LocalTime, position: GridPosition): F[Set[LineName]]
 
-  def isDelayed(time: LocalTime, lineName: LineName): F[Boolean]
+  def isDelayed(lineName: LineName): F[Boolean]
 
   def getLineByName(lineNameStr: String): F[LineName]
 
