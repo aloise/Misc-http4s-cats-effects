@@ -5,7 +5,7 @@ import cats.implicits._
 import cats.effect.implicits._
 import name.aloise.data._
 import name.aloise.datasource._
-import name.aloise.service.AsyncTransportationTimeTableService
+import name.aloise.service.CachedTransportationTimeTableService
 import org.scalatest.{MustMatchers, WordSpec}
 
 import scala.concurrent.duration._

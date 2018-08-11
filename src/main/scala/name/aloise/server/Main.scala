@@ -3,7 +3,7 @@ package name.aloise.server
 import cats.effect.IO
 import name.aloise.datasource.csv.CsvTransportationDatasource
 import name.aloise.server.http.DefaultHttpService
-import name.aloise.service.AsyncTransportationTimeTableService
+import name.aloise.service.CachedTransportationTimeTableService
 import fs2.StreamApp
 
 import scala.util.Try

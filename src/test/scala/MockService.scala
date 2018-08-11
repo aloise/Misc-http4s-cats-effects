@@ -3,7 +3,7 @@ import java.time.LocalTime
 import cats.effect.IO
 import name.aloise.data._
 import name.aloise.datasource._
-import name.aloise.service.AsyncTransportationTimeTableService
+import name.aloise.service.CachedTransportationTimeTableService
 import scala.concurrent.duration._
 
 trait MockService {
@@ -32,7 +32,7 @@ trait MockService {
   }
 
   def getService = {
-    AsyncTransportationTimeTableService(getDatasource)
+    CachedTransportationTimeTableService(getDatasource)
   }
 
 }

@@ -7,6 +7,7 @@ val circeVersion = "0.9.3"
 val enumeratumVersion = "1.5.13"
 val kantanCsvVersion = "0.4.0"
 val catsVersion = "1.2.0"
+val scalaCacheVersion = "0.24.2"
 
 dockerExposedPorts := Seq(8081)
 
@@ -20,6 +21,7 @@ lazy val root = (project in file("."))
     name := "mobile-transportation-test-service-v1",
     version := "0.0.1-SNAPSHOT",
     scalaVersion := "2.12.6",
+    resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
     libraryDependencies ++= Seq(
       "org.http4s" %% "http4s-blaze-server" % http4sVersion,
       "org.http4s" %% "http4s-circe" % http4sVersion,
@@ -40,6 +42,9 @@ lazy val root = (project in file("."))
       "org.typelevel" %% "cats-effect" % "0.10.1",
       "ch.qos.logback" % "logback-classic" % "1.2.3",
       "com.typesafe.scala-logging" %% "scala-logging" % "3.9.0",
+      "com.github.cb372" %% "scalacache-core" % scalaCacheVersion,
+      "com.github.cb372" %% "scalacache-cats-effect" % scalaCacheVersion,
+      "com.github.cb372" %% "scalacache-caffeine" % scalaCacheVersion,
 
       "org.scalatest" %% "scalatest" % "3.0.5" % Test,
       "com.github.agourlay" %% "cornichon-scalatest" % "0.16.1" % IntegrationTest
