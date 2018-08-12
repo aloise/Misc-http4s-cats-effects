@@ -50,7 +50,7 @@ case class CsvTransportationDatasource[F[_] : Effect](
 object CsvTransportationDatasource {
 
   private def ioFromCSVDataResource[F[_] : Effect](filename: String): F[String] =
-    implicitly[Effect[F]].pure(Source.fromResource("data/" + filename + ".csv").mkString)
+    implicitly[Effect[F]].pure(Source.fromResource("data/" + filename + ".csv", CsvTransportationDatasource.getClass.getClassLoader).mkString)
 
   def fromResources[F[_]:Effect](
                                      delaysFilename:String ="delays",

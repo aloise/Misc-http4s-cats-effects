@@ -1,24 +1,35 @@
 package name.aloise.server
 
 import cats.effect.IO
-import name.aloise.datasource.csv.CsvTransportationDatasource
-import name.aloise.server.http.DefaultHttpService
-import name.aloise.service.CachedTransportationTimeTableService
 import fs2.StreamApp
 
-import scala.util.Try
+import scala.util.{Failure, Success, Try}
+import scala.concurrent.{Await, ExecutionContext, Future}
+import scalaz.concurrent.{Task => ZTask}
+import name.aloise.utils.FutureEffect._
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration.Duration
 
 object Main extends StreamApp[IO] with DefaultServerBuilder {
-
-  // just a quick default - might make sense to provide a separate EC
-  import scala.concurrent.ExecutionContext.Implicits.global
 
   /**
     * Starting the app
     */
-  def stream(args: List[String], requestShutdown: IO[Unit]) =
-    httpServer().unsafeRunSync.stream
+// ScalaZ
+// import io.chrisdavenport.scalaz.task._
+//  def stream(args: List[String], requestShutdown: ZTask[Unit]) =
+//    httpServer[ZTask]().unsafePerformSync.stream
 
 
 
+// Cats IO
+  override def stream(args: List[String], requestShutdown: IO[Unit]): fs2.Stream[IO, StreamApp.ExitCode] =
+    httpServer[IO]().unsafeRunSync().stream
+
+
+//  override def stream(args: List[String], requestShutdown: Future[Unit]): fs2.Stream[Future, StreamApp.ExitCode] = {
+//    val server = Await.result(httpServer[Future](Some(ServerConfiguration(8081, "localhost"))), Duration.Inf)
+//    server.stream
+//  }
 }

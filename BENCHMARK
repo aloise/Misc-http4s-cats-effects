@@ -1,0 +1,32 @@
+Running tests
+
+> wrk -t 1 -c 100 -d 1m  "http://localhost:8081/lines?x=1&y=1&timestamp=10:00:01"
+
+Cats Effects IO Monad
+===
+Running 1m test @ http://localhost:8081/lines?x=1&y=1&timestamp=10:00:01
+  1 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     4.66ms    2.61ms  41.56ms   75.86%
+    Req/Sec    21.75k     1.98k   25.95k    65.83%
+  1299423 requests in 1.00m, 148.71MB read
+Requests/sec:  21636.47
+Transfer/sec:      2.48MB
+===
+
+Scala Future
+===
+???
+===
+
+ScalaZ 7 Task
+===
+Running 1m test @ http://localhost:8081/lines?x=1&y=1&timestamp=10:00:01
+  1 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     6.98ms    3.65ms  47.47ms   73.40%
+    Req/Sec    14.70k     1.59k   17.57k    80.17%
+  877511 requests in 1.00m, 100.42MB read
+Requests/sec:  14622.57
+Transfer/sec:      1.67MB
+===

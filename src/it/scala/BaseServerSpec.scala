@@ -14,13 +14,13 @@ trait BaseServerSpec extends CornichonFeature with BeforeAndAfterAll with Defaul
 
   private var serverInstance:Option[Server[IO]] = None
 
+  override lazy val baseUrl: String = server.baseUri.toString()
+
   def server: Server[IO] = Option(serverInstance).flatten.getOrElse{
-    val srv = httpServer(IO.pure(ServerConfiguration(0,"localhost")))
+    val srv = httpServer[IO](Some(ServerConfiguration(0,"localhost")))
     serverInstance = Some(srv.unsafeRunSync.start.unsafeRunSync)
     serverInstance.get
   }
-
-  override lazy val baseUrl = server.baseUri.toString()
 
   override def beforeAll(): Unit = {
     // accessing baseUrl to make sure the server was initialized - that's how Cornichon library is designed :(

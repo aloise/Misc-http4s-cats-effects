@@ -1,29 +1,32 @@
 package name.aloise.server
 
-import cats.effect.IO
+import cats.effect.{Effect, IO}
 import name.aloise.datasource.csv.CsvTransportationDatasource
 import name.aloise.server.http.DefaultHttpService
 import name.aloise.service._
+import name.aloise.utils.WithEffects
 
 import scala.concurrent.ExecutionContext
+import scala.language.higherKinds
 import scala.util.Try
 
-trait DefaultServerBuilder {
-
-  private def loadConfig:IO[ServerConfiguration] =
-    IO.fromEither(Try(pureconfig.loadConfigOrThrow[ServerConfiguration]("server")).toEither)
+trait DefaultServerBuilder extends WithEffects {
 
   /**
     * Composing server instance
     * @return
     */
-  protected def httpServer(getConfig:IO[ServerConfiguration] = loadConfig)(implicit ec:ExecutionContext) = {
-    for {
-      config <- getConfig
-      csvDatasource = CsvTransportationDatasource.fromResources[IO]()
-      timeTableService = CachedTransportationTimeTableService(csvDatasource)
-      server = DefaultHttpService(config)(timeTableService)
-    } yield server
+  protected def httpServer[IOEffect[_]:Effect](getConfig:Option[ServerConfiguration] = None): IOEffect[DefaultHttpService[IOEffect]] = {
+
+    def loadConfig:IOEffect[ServerConfiguration] =
+      eff[IOEffect].pure(pureconfig.loadConfigOrThrow[ServerConfiguration]("server"))
+
+    eff[IOEffect].map( getConfig.map(eff[IOEffect].pure) getOrElse loadConfig ){ config =>
+      val datasource = CsvTransportationDatasource.fromResources[IOEffect]()
+      val timeTableService = CachedTransportationTimeTableService[IOEffect](datasource)
+      DefaultHttpService[IOEffect](config)(timeTableService)
+    }
+
   }
 
 }

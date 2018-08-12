@@ -1,6 +1,6 @@
 scalacOptions += "-Ypartial-unification"
 
-val http4sVersion = "0.18.14"
+val http4sVersion = "0.18.15"
 val specs2Version = "4.2.0"
 val logbackVersion = "1.2.3"
 val circeVersion = "0.9.3"
@@ -46,6 +46,8 @@ lazy val root = (project in file("."))
       "com.github.cb372" %% "scalacache-cats-effect" % scalaCacheVersion,
       "com.github.cb372" %% "scalacache-caffeine" % scalaCacheVersion,
 
+
+      "io.chrisdavenport" %% "scalaz-task-effect" % "0.1.0",
       "org.scalatest" %% "scalatest" % "3.0.5" % Test,
       "com.github.agourlay" %% "cornichon-scalatest" % "0.16.1" % IntegrationTest
 
